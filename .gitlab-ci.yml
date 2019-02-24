@@ -1,0 +1,30 @@
+####
+# GitLab CI
+####
+
+# Image
+image: openjdk:8-jdk-alpine
+
+# Make the gradle wrapper executable. This essentially downloads a copy of Gradle to build the project with.
+before_script:
+ - chmod +x gradlew
+
+# Definition der Stages
+stages:
+ - Prepare
+ - Test
+ - Compile
+ - Publish
+ - Deployment
+
+# Compile
+Assemble:
+  stage: Compile
+  script:
+    - ./gradlew jarAuthFilter
+    - ./gradlew jarAuthProvider
+  allow_failure: false
+  artifacts:
+    paths:
+    - build
+    expire_in: 1 hour
